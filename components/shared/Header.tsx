@@ -32,7 +32,7 @@ export default function Header() {
           </SignedIn>
 
           <SignedOut>
-            <Button asChild className=" rounded-full" size="lg">
+            <Button asChild className="bg-primary-500 rounded-full" size="lg">
               <Link href="/sign-in">Login</Link>
             </Button>
           </SignedOut>
