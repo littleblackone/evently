@@ -1,20 +1,5 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
-import "../globals.css";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-});
-
-export const metadata: Metadata = {
-  title: "Evently",
-  description: "Evently is an platform for event management",
-  icons: {
-    icon: "/assets/images/logo.svg",
-  },
-};
+import Footer from "@/components/shared/Footer";
+import Header from "@/components/shared/Header";
 
 export default function RootLayout({
   children,
@@ -22,8 +7,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={poppins.variable}>{children}</body>
-    </html>
+    <div className=" flex flex-col h-screen">
+      <Header></Header>
+      <main className=" flex-1">{children}</main>
+      <Footer></Footer>
+    </div>
   );
 }
