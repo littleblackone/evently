@@ -68,7 +68,7 @@ export const formatPrice = (price: string) => {
 
 export function formUrlQuery({ params, key, value }: UrlQueryParams) {
   const currentUrl = qs.parse(params);
-
+  currentUrl.page = "1";//每次查询，重置page为1。（数据不一定都大于一页）
   currentUrl[key] = value;
 
   return qs.stringifyUrl(

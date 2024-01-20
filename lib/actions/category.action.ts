@@ -26,3 +26,7 @@ export async function getAllCategories() {
     handleError(error);
   }
 }
+
+export async function getCategoryByName(name: string) {
+  return Category.findOne({ name: { $regex: name, $options: "i" } });
+}

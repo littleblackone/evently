@@ -25,6 +25,7 @@ import DatePicker from "react-datepicker";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 import "react-datepicker/dist/react-datepicker.css";
+import { createEvent, updateEvent } from "@/lib/actions/event.action";
 
 interface EventFormProps {
   userId: string;
@@ -60,7 +61,53 @@ export default function EventForm({
   });
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
-    console.log(values);
+    let uploadImageUrl = values.imageUrl;
+
+    if (files.length > 0) {
+      const uploadedImages = await startUpload(files);
+
+      if (!uploadedImages) return;
+
+      uploadImageUrl = uploadedImages[0].url;
+    }
+
+    if (type === "Create") {
+      try {
+        const newEvent = await createEvent({
+          event: { ...values, imageUrl: uploadImageUrl },
+          userId,
+          path: "/profile",
+        });
+
+        if (newEvent) {
+          form.reset();
+          router.push(`/events/${newEvent._id}`);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (type === "Update") {
+      if (!eventId) {
+        router.back();
+        return;
+      }
+
+      try {
+        const updatedEvent = await updateEvent({
+          userId,
+          event: { ...values, imageUrl: uploadImageUrl, _id: eventId },
+          path: "/events/${eventId}",
+        });
+
+        if (updatedEvent) {
+          form.reset();
+          router.push(`/events/${updatedEvent._id}`);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   return (
