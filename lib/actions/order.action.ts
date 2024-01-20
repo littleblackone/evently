@@ -29,11 +29,13 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
             unit_amount: price,
             product_data: {
               name: order.eventTitle,
+              images: [order.imageUrl],
             },
           },
           quantity: 1,
         },
       ],
+
       metadata: {
         eventId: order.eventId,
         buyerId: order.buyerId,
